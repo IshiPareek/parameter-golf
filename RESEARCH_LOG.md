@@ -24,7 +24,7 @@ Focus : Scheduled Sampling
 How did this idea come to be? It is to essentially match inference with learning. Also, add reflection, one of the proven ways to enhance intelligence. The idea came to be when I wanted to add a step that helps the model recover from it's answer. The focus started with working on output softmax but shifted to something like the following. 
 How does this fit? While the traditional scheduled sampling works as a downward curve, I tried a U-Shap approach wherein we try to balance treacher forcing and sampling together. We start with a 100% teacher forcing, go down to a 50% teacher forcing midpoint and then work upwards to 100% till we reach the final step. 
 How does this fit with LeakyRelu and Trigram Hash? I was worried the mid step with high % of prediction tokens will start a chain of activation of wrong tokens but I realised that before we have reached the next step, the error would be corrected. 
-<img width="1356" height="1144" alt="image" src="https://github.com/user-attachments/assets/89898ff6-c30e-4f60-a453-f78bac249157" />
+<img width="800" height="600" alt="image" src="https://github.com/user-attachments/assets/89898ff6-c30e-4f60-a453-f78bac249157" />
 
 
 Key insights: 
