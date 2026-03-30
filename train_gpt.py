@@ -652,6 +652,7 @@ class TrigramHash(nn.Module):
         self.num_buckets = num_buckets
         self.embedding = nn.Embedding(num_buckets, embed_dim)
         self.proj = nn.Linear(embed_dim, model_dim, bias=False)
+        self.embedding.weight.data = self.embedding.weight.data.half()
 
     def forward(self, input_ids: torch.Tensor) -> torch.Tensor:
         t0 = input_ids[..., :-2]
@@ -684,7 +685,7 @@ class GPT(nn.Module):
         self.tied_embed_init_std = tied_embed_init_std
         self.logit_softcap = logit_softcap
         self.tok_emb = nn.Embedding(vocab_size, model_dim)
-        self.trigram = TrigramHash(num_buckets=8192, embed_dim=128, model_dim=model_dim)
+        self.trigram = TrigramHash(num_buckets=4096, embed_dim=128, model_dim=model_dim)
         self.num_encoder_layers = num_layers // 2
         self.num_decoder_layers = num_layers - self.num_encoder_layers
         self.num_skip_weights = min(self.num_encoder_layers, self.num_decoder_layers)
