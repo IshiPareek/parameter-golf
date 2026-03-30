@@ -962,16 +962,6 @@ def main() -> None:
                 if distributed:
                     model.require_backward_grad_sync = micro_step == grad_accum_steps - 1
                 x, y = train_loader.next_batch(args.train_batch_tokens, args.train_seq_len, grad_accum_steps)
-            import random as _rnd
-            midpoint = args.iterations // 2
-            if step < midpoint:
-                p_real = 1.0 - (step / max(midpoint, 1)) * 0.5
-            else:
-                p_real = 0.5 + ((step - midpoint) / max(midpoint, 1)) * 0.5
-            if step > args.warmup_steps and _rnd.random() > p_real:
-                with torch.no_grad():
-                    logits = model.get_logits(x)
-                    x = logits.argmax(dim=-1)
                 with torch.autocast(device_type="cuda", dtype=torch.bfloat16, enabled=True):
                     warmup_loss = model(x, y)
                 (warmup_loss * grad_scale).backward()
@@ -1047,9 +1037,7 @@ def main() -> None:
             else:
                 p_real = 0.5 + ((step - midpoint) / max(midpoint, 1)) * 0.5
             if step > args.warmup_steps and _rnd.random() > p_real:
-                with torch.no_grad():
-                    logits = model.get_logits(x)
-                    x = logits.argmax(dim=-1)
+                pass  # scheduled sampling placeholder
             with torch.autocast(device_type="cuda", dtype=torch.bfloat16, enabled=True):
                 loss = model(x, y)
             train_loss += loss.detach()
