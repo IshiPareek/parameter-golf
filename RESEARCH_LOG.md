@@ -58,6 +58,16 @@ Fixes pushed:
 
 Next: clean 8×H100 run with fixes → target beat 1.2244 baseline
 
+## Day 5 
+Today felt like a completely start over in terms of strategy. I woke up thinking, what am I doing with the "8" GPUs and the "H100" I have.
+Have I thought of optimising my architecture to the hardware? 
+This is where I started exploring strategies which distribute computation among the GPUs in an optimised manner. 
+1/ Use H100s native 8-bit hardwar by using a float point of 8, and replace the standard layers with a transformer engine 
+2/ Replace the DDP style interaction to a FSDP (Fully Sharded Data Parallel : this includes weights and gradients) but sharding would be selective, only maybe in the attention layers. But it is worth it to go deeper into understand this. 
+
+I would remove Scheduled Sampling, because we not sure if the model needs Error Recovery if there remains no inference at the end. The challenge is about getting the val_bnb to the lowest, that happens with precision, not 'confusion'. But again, this still is to be tested. Following this train of thought, I will focus on making our trigram hashing more precision. 
+
+Awaiting Runpod Credits :) 
 
 ## Key insights
 - Where is the model not communicating when it should be? That gap is always an opportunity.
