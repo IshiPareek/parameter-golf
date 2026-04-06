@@ -99,14 +99,14 @@ JEPA loss :
 - loss = MSE(predicted_embedding, target_embedding)
 
 Things to consider :
-1/ JEPA adds two new hyperparameters, that would affect our 16MB. 
-2/ JEPA doesn't store Gradients, how does that affect us? What instead? Understand EMA
-3/ EMA : Exponential Moving Average is the main game, it gets us away from token prediction by become the slow update to the credits and learning, while it keeps the absolute truth but also updates to new knowledge.
-4/ From reading the paper, the point is to learn and the embedding space and then point to tokens from there 
+1. JEPA adds two new hyperparameters, that would affect our 16MB.
+2. JEPA doesn't store Gradients, how does that affect us? What instead? Understand EMA
+3. EMA : Exponential Moving Average is the main game, it gets us away from token prediction by become the slow update to the credits and learning, while it keeps the absolute truth but also updates to new knowledge.
+4. From reading the paper, the point is to learn and the embedding space and then point to tokens from there 
 
 Strategies : 
-1/ Build a only JEPA Model : This is to see how it behaves on the baseline, after computing loss we can proceed to optmise it as needed. 
-2/ Build a hybrid model : We start with standard attention layers, use JEPA for the middle layers and then finish with standard attention layers. We operate with two types of losses. 
+1. Build a only JEPA Model : This is to see how it behaves on the baseline, after computing loss we can proceed to optmise it as needed.
+2. Build a hybrid model : We start with standard attention layers, use JEPA for the middle layers and then finish with standard attention layers. We operate with two types of losses. 
 
 The basic idea is to not learn from absolute truth. Let's see how it goes. 
 
