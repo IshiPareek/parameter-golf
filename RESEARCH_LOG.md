@@ -99,12 +99,13 @@ JEPA loss :
 - loss = MSE(predicted_embedding, target_embedding)
 
 Things to consider :
-1/ JEPA adds two new hyperparameters, that would affect our storage space. 
+1/ JEPA adds two new hyperparameters, that would affect our 16MB. 
 2/ JEPA doesn't store Gradients, how does that affect us? 
 
-My first strategy : 
-Build a hybrid model 
-We start with standard attention layers, use JEPA for the middle layers and then finish with standard attention layers. We operate with two types of losses. Let's see how it goes.
+Strategies : 
+1/ Build a only JEPA Model : This is to see how it behaves on the baseline, after computing loss we can proceed to optmise it as needed. 
+2/ Build a hybrid model : We start with standard attention layers, use JEPA for the middle layers and then finish with standard attention layers. We operate with two types of losses. 
+
 
 ## Key insights
 - Where is the model not communicating when it should be? That gap is always an opportunity.
