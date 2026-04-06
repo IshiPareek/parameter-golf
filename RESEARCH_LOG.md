@@ -73,10 +73,43 @@ I would remove Scheduled Sampling, because we not sure if the model needs Error 
 
 Awaiting Runpod Credits :) 
 
+## Day 6-7-8-9 
+Everyday can be a new start with a challenge of such a kind. This makes me undersstand how important it is to have a value system that we are training towards or past success which can help anchor all our strategies to, but the best part is the novelty here. 
+
+After going into a spiral of training for infrastructure vs training for more precision. I re-assessed. This re-assession proved to be a start of a completely new direction. I realised that the baseline would already be a optimised for the GPUs, while it is important to optimise for the hardware, how much of a complex change would you want to implement which takes you away from a already well defined GPU-optimised architecture from the baseline. This is where I had to look for a new strategy completely. 
+I studied all the "request for implementation" architechture choices presented. 
+
+The one that caught my attention was JEPA, reason one being that it is still not implemented in the non-record submissions and secondly that it's promise to provide more abstraction is truly novel. 
+
+Now, I study and make an architecture optmised for JEPA. 
+
+## Architecture for JEPA  
+JEPA : Joint Embedding Predictive Architecture -> https://arxiv.org/pdf/2509.14252
+This architecture allows prediction of embedding rather than tokens, helping the LLM look for the underlying meaning rather than the token itself. 
+
+Standard loss : 
+- model predicts next token ID
+- loss = cross_entropy(predicted_token, real_token)
+- penalizes every wrong word equally, even valid synonyms
+
+JEPA loss :
+- context encoder processes input tokens → context embedding
+- target encoder processes target tokens → target embedding  
+- predictor (small MLP) maps context embedding → predicted embedding
+- loss = MSE(predicted_embedding, target_embedding)
+
+Things to consider :
+1/ JEPA adds two new hyperparameters, that would affect our storage space. 
+2/ JEPA doesn't store Gradients, how does that affect us? 
+
+My first strategy : 
+Build a hybrid model 
+We start with standard attention layers, use JEPA for the middle layers and then finish with standard attention layers. We operate with two types of losses. Let's see how it goes.
+
 ## Key insights
 - Where is the model not communicating when it should be? That gap is always an opportunity.
 - On a larger scale, when is complicated too complicated? 
 - Which idea should be picked? How does one work within these resource constraints? 
-- It is important to have a near identical environment in your local machine. 
+- It is important to have a near identical environment in your local machine. This is a good business idea.
 
 Next: implement anchor MLP, smoke test locally and if it beats my score of 2.3, we run it on the GPU. 
