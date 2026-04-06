@@ -110,6 +110,33 @@ Strategies :
 
 Let's see how not learning from the absolute truth fairs.
 
+## Implemented JEPA & pushed it train_gpt_jepa.py
+1. JEPAPredictor class — 2-layer MLP that maps 
+   context embedding → predicted target embedding
+
+2. GPT __init__ — added target encoder (EMA copy of 
+   all 11 layers, no gradients) + predictor + 
+   jepa_lambda=0.1, ema_decay=0.996
+
+3. update_ema() method — pulls target encoder weights 
+   0.4% toward context encoder every step
+
+4. GPT forward — two parallel paths:
+   context encoder (gradients) + target encoder (EMA)
+   loss = CE + 0.1 × MSE(predicted_emb, target_emb)
+
+5. Training loop — update_ema() called after every step
+
+Validated locally
+- forward pass: loss 23.8 (expected for random model)
+- EMA update: clean
+- import: clean
+
+Next :
+- H100 run 
+- compare val_bpb vs baseline
+- if works → tune jepa_lambda and ema_decay
+
 ## Key insights
 - Where is the model not communicating when it should be? That gap is always an opportunity.
 - On a larger scale, when is complicated too complicated? 
