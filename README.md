@@ -15,13 +15,15 @@ Building from first principles with low LLM training background at this scale. A
 ## My Changes
 - LeakyReLU(0.5)² on MLP activations
 - TrigramHash(4096) — richer token context
-- Mid-layer JEPA (in progress)
+- JEPA (in progress)
 
 ## Results
 | Run | Hardware | Steps | val_bpb |
 |-----|----------|-------|---------|
 | A100 4500 steps | 1×A100 | 4500 | 1.2819 |
 | 8×H100 5274 steps | 8×H100 | 5274 | 1.2631 |
+| 8×H100 7000 steps | 8×H100 | 7000 | 1.2699 | JEPA Baseline
+
 
 ## Research Log
 See RESEARCH_LOG.md for daily progress and thinking.
