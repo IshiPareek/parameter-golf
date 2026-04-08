@@ -20,9 +20,9 @@ Building from first principles with low LLM training background at this scale. A
 ## Results
 | Run | Hardware | Steps | val_bpb |
 |-----|----------|-------|---------|
-| A100 4500 steps | 1×A100 | 4500 | 1.2819 |
-| 8×H100 5274 steps | 8×H100 | 5274 | 1.2631 |
-| 8×H100 7000 steps | 8×H100 | 7000 | 1.2699 | JEPA Baseline
+| Hashing and LeakyRelU | 1×A100 | 4500 | 1.2819 |
+| Hashing and LeakyRelU + Parameters | 8×H100 | 5274 | 1.2631 |
+| JEPA | 8×H100 | 7000 | 1.2699 | JEPA Baseline
 
 
 ## Research Log
