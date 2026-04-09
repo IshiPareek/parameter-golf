@@ -195,8 +195,8 @@ Average of 40ms (way below baseline) which is obvious but we shouldn't go way be
 
 ## To think about next 
 - How might we reducing the model size?
-- Need to utilise each step properly
-- A good spot for layers can be 8 but how much of the model size does that increase? 
+- Need to utilise each step better 
+- Model_dim and num_layers should stay 512 and 9 respectively. 
 
 ---
 ## Key insights
@@ -204,5 +204,4 @@ Average of 40ms (way below baseline) which is obvious but we shouldn't go way be
 - On a larger scale, when is complicated too complicated? 
 - Which idea should be picked? How does one work within these resource constraints? 
 - It is important to have a near identical environment in your local machine. This is a good business idea.
-
-Next: implement anchor MLP, smoke test locally and if it beats my score of 2.3, we run it on the GPU. 
+- We need depth for LLMs, very important
