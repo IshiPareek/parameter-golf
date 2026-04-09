@@ -22,7 +22,9 @@ Building from first principles with low LLM training background at this scale. A
 |-----|----------|-------|---------|
 | Hashing and LeakyRelU | 1×A100 | 4500 | 1.2819 |
 | Hashing and LeakyRelU + Parameters | 8×H100 | 5274 | 1.2631 |
-| JEPA | 8×H100 | 7000 | 1.2699 | JEPA Baseline
+| JEPA | 8×H100 | 7000 | 1.2699 | JEPA Baseline | 
+| JEPA : model_dim = 386, num_layers = 9  | 8×H100 | 7000 | 1.28-1.30 | Altered : Reduced model size | 
+| JEPA : model_dim = 512, num_layers = 6  | 8×H100 | 7000 | 1.3114 | Altered : Reduced model size |
 
 
 ## Research Log
