@@ -63,7 +63,7 @@ class Hyperparameters:
     vocab_size = int(os.environ.get("VOCAB_SIZE", 1024))
     num_layers = int(os.environ.get("NUM_LAYERS", 9))
     num_kv_heads = int(os.environ.get("NUM_KV_HEADS", 4))
-    model_dim = int(os.environ.get("MODEL_DIM", 512))
+    model_dim = int(os.environ.get("MODEL_DIM", 384))
     num_heads = int(os.environ.get("NUM_HEADS", 8))
     mlp_mult = int(os.environ.get("MLP_MULT", 2))
     tie_embeddings = bool(int(os.environ.get("TIE_EMBEDDINGS", "1")))
@@ -1122,6 +1122,11 @@ def main() -> None:
     # -----------------------------
     # Save the raw state (useful for debugging/loading in PyTorch directly), then always produce
     # the compressed int8+zlib artifact and validate the round-tripped weights.
+
+    # Remove target encoder before serialization — not needed for inference
+    # Can be reconstructed as EMA copy of context encoder if training resumes
+    del base_model.target_blocks
+    del base_model.target_final_norm
 
     if master_process:
         torch.save(base_model.state_dict(), "final_model.pt")
